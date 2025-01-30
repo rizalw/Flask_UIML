@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Available Algorithm</title>
+</head>
+<body>
+    <h1>List of Available Algorithm</h1>
+    {% if algorithm_list | length < 1%}
+    <h4>No available algorithm. Please insert a new one</h4>
+    {% else %}
+    <table border="1">
+        <tr>
+            <th>#</th>
+            <td>Name</td>
+            <td>Action</td>
+        </tr>
+        {% for algorithm in algorithm_list %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ algorithm.name}}</td>
+            <td>{{ algorithm.methods}}</td>
+            <td>
+                <a href="/algorithm_data/update/{{algorithm.id}}">Update</a><br>
+                <a href="/algorithm_data/delete/{{algorithm.id}}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    {% endif%}
+    <h2>Add New Algorithm</h2>
+    <form action="" method="post">
+        <label for="">Algorithm name</label><br>
+        <input type="text" name="name" id="" placeholder="Decision Tree"><br>
+        <label for="">Type</label><br>
+        <input type="checkbox" id="" name="type" value="classification">
+        <label for="">Classification</label><br>
+        <input type="checkbox" id="" name="type" value="regression">
+        <label for="">Regression</label><br>
+        <input type="checkbox" id="" name="type" value="clustering">
+        <label for="">Clustering</label><br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

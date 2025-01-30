@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin dashboard</title>
+</head>
+<body>
+    <h1>Welcome to Admin dashboard</h1><br>    
+        Hi {{ current_user.username }}!
+    <br>
+    <a href="{{url_for('algorithm_data')}}">Algorithm List</a><br>
+    <a href="{{url_for('dataset_data')}}">Dataset List</a><br>
+    <a href="{{url_for('logout')}}">Press here to logout</a>
+</body>
+</html>
