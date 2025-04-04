@@ -21,7 +21,7 @@ db = SQLAlchemy(model_class=Base)
 class User(db.Model, UserMixin):
     __name__ = "user_table"
     id: Mapped[int] = mapped_column(primary_key=True)
-    username: Mapped[str] = mapped_column(String(20), nullable=False)
+    username: Mapped[str] = mapped_column(String(20), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(String(20), nullable=False)
     role: Mapped[str] = mapped_column(String(20), nullable=False)
     date_created: Mapped[datetime] = mapped_column(default=datetime.now(timezone.utc), nullable=False)

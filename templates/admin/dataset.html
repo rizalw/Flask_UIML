@@ -27,7 +27,7 @@
     </a>
 </li>
 <li>
-    <a href="#" class="nav-link text-white">
+    <a href="{{ url_for('admin.model')}}" class="nav-link text-white">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Models
@@ -38,7 +38,7 @@
 {% block content %}
 <h1 class="text-center">Datasets</h1>
 <form method=post enctype=multipart/form-data class="ps-3">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
     <div class="mb-3">
         <label for="" class="form-label">Dataset Name</label>
         <input type="text" name="name" class="form-control" placeholder="Insert name of the dataset" required>
@@ -107,7 +107,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                <a href="{{ url_for('admin.dataset_delete', id=dataset.id)}}" class="btn btn-danger">Delete</a>
+                                <a href="{{ url_for('admin.dataset_delete', id=dataset.id)}}"
+                                    class="btn btn-danger">Delete</a>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from models import db, Dataset
+from models import db, Dataset, Model
 from algorithms import algorithms
 import os
 import pandas as pd
@@ -85,4 +85,16 @@ def dataset_delete(id):
 @admin.get("/admin/algorithm")
 @login_required
 def algorithm():
-    return render_template("admin/algorithm.html", algorithms_dict = algorithms)
+    if current_user.role != "admin":
+        return redirect(url_for('auth.logout'))
+    else:
+        return render_template("admin/algorithm.html", algorithms_dict = algorithms)
+
+@admin.get("/admin/model")
+@login_required
+def model():
+    if current_user.role != "admin":
+        return redirect(url_for('auth.logout'))
+    else:
+        model_list = db.session.query(Model).order_by(Model.date_created).all()
+        return render_template("/admin/model.html", model_list = model_list, algorithms_dict = algorithms)

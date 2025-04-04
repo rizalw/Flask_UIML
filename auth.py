@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, flash, render_template, redirect, url_for, request
 from flask_bcrypt import Bcrypt
 from flask_login import login_user, login_required, logout_user
 from models import db, User
@@ -18,6 +18,9 @@ def admin_register():
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('auth.login'))
+        else:
+            flash('Your registration failed')
+            return redirect(request.url)
     else:
         return render_template("/admin/register.html", form = form)
 
@@ -26,11 +29,18 @@ def register():
     form = RegisterForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            hashed_password = bcrypt.generate_password_hash(form.password.data)
-            new_user = User(username=form.username.data, password=hashed_password, role="customer")
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for('auth.login'))
+            if form.validate_username(form.username):
+                hashed_password = bcrypt.generate_password_hash(form.password.data)
+                new_user = User(username=form.username.data, password=hashed_password, role="customer")
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for('auth.login'))
+            else:
+                flash('The username is already used')
+                return redirect(request.url)
+        else:
+            flash('Your registration failed')
+            return redirect(request.url)
     else:
         return render_template("register.html", form = form)
 
@@ -40,7 +50,6 @@ def login():
     if request.method == "POST":
         if form.validate_on_submit():
             user = db.session.query(User).filter_by(username=form.username.data).first()
-            # user = User.query.filter_by(username=form.username.data).first()
             if user:
                 if bcrypt.check_password_hash(user.password, form.password.data):
                     login_user(user)
@@ -48,8 +57,15 @@ def login():
                         return redirect(url_for('dashboard'))
                     elif user.role == "admin":
                         return redirect(url_for("admin.index"))
-                    else:
-                        return redirect(url_for('auth.logout'))
+                else:
+                    flash('Failed logged in. Check again if your password is the correct one')
+                    return redirect(request.url)
+            else:
+                flash('Failed logged in. Check again if your username is the correct one')
+                return redirect(request.url)
+        else:
+            flash("Failed logged in. Please use intended webpage to log in")
+            return redirect(request.url)
     else:
         return render_template("login.html", form = form)
 
