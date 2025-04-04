@@ -1,24 +1,24 @@
-from flask import Flask, render_template, url_for, redirect, flash, send_from_directory, request
+from flask import Flask, render_template, url_for, redirect, send_from_directory, request
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_required, current_user
 from flask_wtf.csrf import CSRFProtect
 
 import os
-import pickle
 import pandas as pd
+import pickle
+
 from auth import bcrypt, auth
-from admin import admin
-from admin import UPLOAD_FOLDER
-from models import db, User, Dataset, Model
-from forms import RegisterForm, LoginForm
 from algorithms import algorithms
+from admin import admin, UPLOAD_FOLDER
+from models import db, User, Dataset, Model
+from secret import SECRET_KEY
 
 app = Flask(__name__)
 app.register_blueprint(auth)
 app.register_blueprint(admin)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = 'thisisasecretkey'
+app.config['SECRET_KEY'] = SECRET_KEY
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 160 * 1000 * 1000
 

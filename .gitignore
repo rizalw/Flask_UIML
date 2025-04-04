@@ -175,3 +175,4 @@ cython_debug/
 
 # Custom stuff
 Docs/
+secret.py
