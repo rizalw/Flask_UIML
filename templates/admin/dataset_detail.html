@@ -1,0 +1,61 @@
+{% extends "/admin/layout.html" %}
+
+{% block title %}
+<title>Dataset Detail Page</title>
+{% endblock%}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a href="{{ url_for('admin') }}" class="nav-link text-white" aria-current="page">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Home
+    </a>
+</li>
+<li>
+    <a href="#" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Algorithms
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('admin_dataset') }}" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Datasets
+    </a>
+</li>
+<li>
+    <a href="#" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Models
+    </a>
+</li>
+{% endblock%}
+
+
+{% block content %}
+<h1 class="bg-primary text-light ps-3 pb-2">{{ dataset_data.name }}</h1>
+<table class="table table-striped ms-3">
+    <thead>
+        <tr>
+            <th class="col-1">Row</th>
+            {% for column in columns%}
+            <th class="col-2">{{ column }}</th>
+            {% endfor%}
+        </tr>
+    </thead>
+    <tbody>
+        {% for value in values %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            {% for detail in value %}
+            <td>{{ detail }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock%}

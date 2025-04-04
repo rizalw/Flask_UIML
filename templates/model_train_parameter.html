@@ -1,0 +1,67 @@
+{% extends "/layout.html" %}
+
+{% block title %}
+<title>Train Model</title>
+{% endblock%}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a href="{{ url_for('dashboard') }}" class="nav-link text-white" aria-current="page">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Home
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('model') }}" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Models
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Model Parameter</h1>
+<form action="{{ url_for('model_train_process') }}" method=post class="ps-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="number" name="model_id" value="{{ model.id }}" hidden>
+    <input type="number" name="dataset_id" value="{{ model.dataset_id }}" hidden>
+    <input type="text" name="algorithm_name" value="{{ algorithm['name'] }}" hidden>
+    <div class="d-flex justify-content-evenly flex-wrap">
+        {% for params in algorithm['parameters']['categorical'] %}
+        <div class="mb-3 mx-2 flex-grow-1">
+            <label for="" class="form-label">{{ params }}</label>
+            <select name="{{ params }}" id="" class="form-select" required>
+                {% for option in algorithm['parameters']['categorical'][params] %}
+                <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endfor%}
+        {% for params in algorithm['parameters']['int'] %}
+        <div class="mb-3 mx-2 flex-grow-1">
+            <label for="" class="form-label">{{ params }}</label>
+            <input type="number" name="{{ params }}" id="" class="form-control" value="{{ algorithm['parameters']['int'][params][0] }}">
+        </div>
+        {% endfor%}
+        {% for params in algorithm['parameters']['float'] %}
+        <div class="mb-3 mx-2 flex-grow-1">
+            <label for="" class="form-label">{{ params }}</label>
+            <input type="number" name="{{ params }}" id="" class="form-control" value="{{ algorithm['parameters']['float'][params][0] }}">
+        </div>
+        {% endfor%}
+        {% for params in algorithm['parameters']['boolean'] %}
+        <div class="mb-3 mx-2 flex-grow-1">
+            <label for="" class="form-label">{{ params }}</label>
+            <select name="{{ params }}" id="" class="form-select" required>
+                <option value="0">0</option>
+                <option value="1">1</option>
+            </select>
+        </div>
+        {% endfor%}
+    </div>
+    <div class="form-text mb-3">If empty (not zero), it means the value can be empty.</div>
+    <input type=submit value="Train" class="btn btn-primary mb-3">
+</form>
+{% endblock %}

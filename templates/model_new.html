@@ -1,0 +1,51 @@
+{% extends "/layout.html" %}
+
+{% block title %}
+<title>Create Model</title>
+{% endblock%}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a href="{{ url_for('dashboard') }}" class="nav-link text-white" aria-current="page">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Home
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('model') }}" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Models
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center"> New Model</h1>
+<form method=post class="ps-3">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <div class="mb-3">
+        <label for="" class="form-label">Model Name</label>
+        <input type="text" name="name" class="form-control" placeholder="Insert name of the model" required>
+        <div class="form-text">Maximum name length is 20 characters</div>
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Pick a Dataset</label>
+        <select name="dataset" id="" class="form-select">
+            {% for dataset in dataset_list %}
+            <option value="{{ dataset.id }}">{{ dataset.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Pick an Algorithm</label>
+        <select name="algorithm" id="" class="form-select">
+            {% for index in algorithms.keys() %}
+            <option value="{{ index }}">{{ algorithms[index]['name'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <input type=submit value="Continue" class="btn btn-primary mb-3">
+</form>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "/admin/layout.html" %}
+
+{% block title %}
+<title>Admin Page</title>
+{% endblock%}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a href="{{ url_for('admin') }}" class="nav-link active" aria-current="page">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Home
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('admin_algorithm') }}" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Algorithms
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('admin_dataset') }}" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Datasets
+    </a>
+</li>
+<li>
+    <a href="#" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Models
+    </a>
+</li>
+{% endblock%}
+
+{% block content %}
+<h1 class="text-center">Welcome to UIML Admin</h1>
+<h6 class="text-center">"Easily Create ML Model with User Interface"</h6>
+<h3 class="ps-3">List of Available Algorithm</h3>
+{% if algorithms_dict.keys() | length < 1 %}
+<h4>No algorithm available. Please contact the web administrator.</h4>
+{% else %}
+<div class="px-3">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-1">#</th>
+                <th class="col-5">Name</th>
+                <th class="col-4">Source</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, val in algorithms_dict.items() %}
+            <tr>
+                <th scope="row" class="col-1">{{ loop.index }}</th>
+                <td class="col">{{ val['name'] }}</td>
+                <td class="col">{{ val['source'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+<h3 class="ps-3">List of Available Dataset</h3>
+{% if dataset_list |length < 1 %} <h4 class="ps-3">No dataset available. Please upload new dataset.</h4>
+    {% else %}
+    <div class="px-3">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-1">#</th>
+                    <th class="col-5">Name</th>
+                    <th class="col-4">Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dataset in dataset_list %}
+                <tr>
+                    <th scope="row" class="col-1">{{ loop.index }}</th>
+                    <td class="col">{{ dataset.name }}</td>
+                    <td class="col">{{ dataset.type }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "/layout.html" %}
+
+{% block title %}
+<title>Model Page</title>
+{% endblock%}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a href="{{ url_for('dashboard') }}" class="nav-link text-white" aria-current="page">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Home
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('model') }}" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Models
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Models</h1>
+{% if model_list |length < 1 %} 
+<h4 class="ps-3">No model available. Please create new model.</h4>
+{% else %}
+<div class="px-3">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-1">#</th>
+                <th class="col-2">Name</th>
+                <th class="col-2">Database</th>
+                <th class="col-2">Algorithm</th>
+                <th class="col-2">Trained</th>
+                <th class="col-2">Accuracy</th>
+                <th class="col-2 text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for model in model_list %}
+            <tr>
+                <th scope="row" class="col-1">{{ loop.index }}</th>
+                <td class="col">{{ model.name }}</td>
+                <td class="col">{{ model.dataset.name }}</td>
+                <td class="col">{{ algorithms[model.algorithm_id]['name'] }}</td>
+                <td class="col">{{ model.status }}</td>
+                <td class="col">
+                {% if model.accuracy is not none %}
+                    {{ "{:.2f}".format(model.accuracy) }}
+                {% endif %}
+                </td>
+                <td class="col d-flex justify-content-evenly">
+                    <a href="{{url_for('model_train_parameter', id=model.id)}}" class="btn btn-primary mx-2">Train</a>
+                    {% if model.status == 1 %}
+                    <a href="{{url_for('model_download', id=model.id)}}" class="btn btn-info mx-2">Download</a>
+                    {% else %}
+                    <a href="{{url_for('model_download', id=model.id)}}" class="btn btn-info mx-2 disabled">Download</a>
+                    {% endif %}
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Warning!</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure that you want to delete this model?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Back</button>
+                            <a href="{{ url_for('model_delete', id=model.id)}}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+<a href="{{ url_for('model_new')}}" class="btn btn-primary ms-3">Create new model</a>
+{% endblock %}

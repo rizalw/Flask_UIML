@@ -1,0 +1,28 @@
+{% extends "/layout.html" %}
+
+{% block title %}
+<title>Dashboard Page</title>
+{% endblock%}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a href="{{ url_for('dashboard') }}" class="nav-link active" aria-current="page">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Home
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('model') }}" class="nav-link text-white">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Models
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Welcome to UIML</h1>
+<h6 class="text-center">"Easily Create ML Model with User Interface"</h6>
+
+{% endblock %}
