@@ -23,7 +23,8 @@ def index():
         return redirect(url_for('auth.logout'))
     else:
         dataset_list = db.session.query(Dataset).order_by(Dataset.date_created).all()
-        return render_template("/admin/index.html", dataset_list = dataset_list, algorithms_dict = algorithms)
+        model_list = db.session.query(Model).order_by(Model.date_created).all()
+        return render_template("/admin/index.html", dataset_list = dataset_list, model_list = model_list,algorithms_dict = algorithms)
     
 @admin.route("/admin/dataset", methods=['GET', 'POST'])
 @login_required

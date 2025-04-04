@@ -87,4 +87,40 @@
         </table>
     </div>
     {% endif %}
+    <h3 class="ps-3">List of Generated Model</h3>
+    {% if model_list |length < 1 %} <h4 class="ps-3">No model available.</h4>
+    {% else %}
+        <div class="px-3">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="col-1">#</th>
+                        <th class="col-2">User</th>
+                        <th class="col-2">Name</th>
+                        <th class="col-2">Dataset</th>
+                        <th class="col-2">Algorithm</th>
+                        <th class="col-2">Trained</th>
+                        <th class="col-2">Accuracy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for model in model_list %}
+                    <tr>
+                        <th scope="row" class="col-1">{{ loop.index }}</th>
+                        <td class="col">{{ model.user.username }}</td>
+                        <td class="col">{{ model.name }}</td>
+                        <td class="col">{{ model.dataset.name }}</td>
+                        <td class="col">{{ algorithms_dict[model.algorithm_id]['name'] }}</td>
+                        <td class="col">{{ model.status }}</td>
+                        <td class="col">
+                            {% if model.accuracy is not none %}
+                                {{ "{:.2f}".format(model.accuracy) }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}
