@@ -46,19 +46,6 @@ with app.app_context():
 def index():
     return render_template("index.html")
 
-@app.route("/admin/register", methods=['GET', 'POST'])
-def admin_register():
-    form = RegisterForm()
-    if request.method == "POST":
-        if form.validate_on_submit():
-            hashed_password = bcrypt.generate_password_hash(form.password.data)
-            new_user = User(username=form.username.data, password=hashed_password, role="admin")
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for('auth.login'))
-    else:
-        return render_template("/admin/register.html", form = form)
-
 @app.get("/admin")
 @login_required
 def admin():
