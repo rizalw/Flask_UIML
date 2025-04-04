@@ -1,13 +1,12 @@
 from flask import Flask, render_template, url_for, redirect, flash, send_from_directory, request
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
-from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.utils import secure_filename
 import os
 import pickle
 import pandas as pd
-# from auth import auth
+from auth import bcrypt, auth
 from models import db, User, Dataset, Model
 from forms import RegisterForm, LoginForm
 from algorithms import algorithms
@@ -20,7 +19,7 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 app = Flask(__name__)
-# app.register_blueprint(auth)
+app.register_blueprint(auth)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'thisisasecretkey'
@@ -28,8 +27,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 160 * 1000 * 1000
 
 migrate = Migrate(app, db)
-bcrypt = Bcrypt(app)
 csrf = CSRFProtect(app)
+bcrypt.init_app(app)
 db.init_app(app)
 
 login_manager = LoginManager()
@@ -39,7 +38,6 @@ login_manager.login_view = 'login'
 @login_manager.user_loader
 def load_user(user_id):
     return db.one_or_404(db.select(User).filter_by(id = user_id))
-    # return User.query.get(int(user_id)) 
 
 with app.app_context():
     db.create_all()
@@ -47,38 +45,6 @@ with app.app_context():
 @app.route("/")
 def index():
     return render_template("index.html")
-
-@app.route("/register", methods=['GET', 'POST'])
-def register():
-    form = RegisterForm()
-    if request.method == "POST":
-        if form.validate_on_submit():
-            hashed_password = bcrypt.generate_password_hash(form.password.data)
-            new_user = User(username=form.username.data, password=hashed_password, role="customer")
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for('login'))
-    else:
-        return render_template("register.html", form = form)
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if request.method == "POST":
-        if form.validate_on_submit():
-            user = db.session.query(User).filter_by(username=form.username.data).first()
-            # user = User.query.filter_by(username=form.username.data).first()
-            if user:
-                if bcrypt.check_password_hash(user.password, form.password.data):
-                    login_user(user)
-                    if user.role == "customer":
-                        return redirect(url_for('dashboard'))
-                    elif user.role == "admin":
-                        return redirect(url_for("admin"))
-                    else:
-                        return redirect(url_for('logout'))
-    else:
-        return render_template("login.html", form = form)
 
 @app.route("/admin/register", methods=['GET', 'POST'])
 def admin_register():
@@ -89,21 +55,15 @@ def admin_register():
             new_user = User(username=form.username.data, password=hashed_password, role="admin")
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
     else:
         return render_template("/admin/register.html", form = form)
-
-@app.get("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
 
 @app.get("/admin")
 @login_required
 def admin():
     if current_user.role != "admin":
-        return redirect(url_for('logout'))
+        return redirect(url_for('auth.logout'))
     else:
         dataset_list = db.session.query(Dataset).order_by(Dataset.date_created).all()
         # dataset_list = Dataset.query.order_by(Dataset.date_created).all()    
@@ -113,7 +73,7 @@ def admin():
 @login_required
 def admin_dataset():
     if current_user.role != "admin":
-        return redirect(url_for("logout"))
+        return redirect(url_for("auth.logout"))
     else:
         if request.method == "POST":
             # Check if the post request has the file part
@@ -147,7 +107,7 @@ def admin_dataset():
 @login_required
 def admin_dataset_view(id):
     if current_user.role != "admin":
-        return redirect(url_for("logout"))
+        return redirect(url_for("auth.logout"))
     else:
         dataset_data = db.one_or_404(db.select(Dataset).filter_by(id = id))
         df = pd.read_csv(dataset_data.filepath)
@@ -175,7 +135,7 @@ def admin_algorithm():
 @login_required
 def dashboard():
     if current_user.role != "customer":
-        return redirect(url_for("logout"))
+        return redirect(url_for("auth.logout"))
     else:
         return render_template('dashboard.html')
 
@@ -183,7 +143,7 @@ def dashboard():
 @login_required
 def model():
     if current_user.role != "customer":
-        return redirect(url_for("logout"))
+        return redirect(url_for("auth.logout"))
     else:
         model_list = db.session.query(Model).filter_by(user_id = current_user.id).order_by(Model.date_created).all()
         return render_template('model.html', model_list = model_list, algorithms = algorithms)
@@ -192,7 +152,7 @@ def model():
 @login_required
 def model_new():
     if current_user.role != "customer":
-        return redirect(url_for("logout"))
+        return redirect(url_for("auth.logout"))
     else:
         if request.method == "POST":
             name = request.form['name']
@@ -210,7 +170,7 @@ def model_new():
 @login_required
 def model_delete(id):
     if current_user.role != "customer":
-        return redirect(url_for("logout"))
+        return redirect(url_for("auth.logout"))
     else:
         delete_data = db.one_or_404(db.select(Model).filter_by(id = id))
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], delete_data.filepath)
@@ -224,7 +184,7 @@ def model_delete(id):
 @login_required
 def model_train_parameter(id):
     if current_user.role != "customer":
-        return redirect(url_for("logout"))
+        return redirect(url_for("auth.logout"))
     else:
         model = db.session.query(Model).filter(Model.id == id).first()
         return render_template("model_train_parameter.html", model = model, algorithm = algorithms[model.algorithm_id])
