@@ -47,9 +47,9 @@ def login():
                     if user.role == "customer":
                         return redirect(url_for('dashboard'))
                     elif user.role == "admin":
-                        return redirect(url_for("admin"))
+                        return redirect(url_for("admin.index"))
                     else:
-                        return redirect(url_for('logout'))
+                        return redirect(url_for('auth.logout'))
     else:
         return render_template("login.html", form = form)
 

@@ -6,21 +6,21 @@
 
 {% block sidebar %}
 <li class="nav-item">
-    <a href="{{ url_for('admin') }}" class="nav-link text-white" aria-current="page">
+    <a href="{{ url_for('admin.index') }}" class="nav-link text-white" aria-current="page">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Home
     </a>
 </li>
 <li>
-    <a href="#" class="nav-link text-white">
+    <a href="{{ url_for('admin.algorithm')}}" class="nav-link text-white">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Algorithms
     </a>
 </li>
 <li>
-    <a href="{{ url_for('admin_dataset') }}" class="nav-link active">
+    <a href="{{ url_for('admin.dataset') }}" class="nav-link active">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Datasets
