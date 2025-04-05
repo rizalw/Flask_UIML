@@ -18,21 +18,21 @@ Flask UIML (User Interface Machine Learning) is website that can create, train, 
 ## What's the tools that I used?
 I'm gonna detailing all of the programming languange, tools, and library that I used to make this website.
 ### Language
-1. Python
+1. [Python](https://www.python.org/downloads/release/python-3131/)
 2. HTML
 3. CSS
 ### Backend
-1. Flask (For main back-end framework)
-2. Flask-login (For user authentication)
-3. Flask-wtf (Use with Flask-login for user registration and login)
-4. Flask-bcrypt (For encrypting and decrypting password)
-5. Flask-sqlalchemy (For database)
-6. Flask-migrate (For migrating models)
+1. [Flask](https://flask.palletsprojects.com/en/stable/) (For main back-end framework)
+2. [Flask-login](https://flask-login.readthedocs.io/en/latest/) (For user authentication)
+3. [Flask-wtf](https://flask-wtf.readthedocs.io/en/1.2.x/) (Use with Flask-login for user registration and login)
+4. [Flask-bcrypt](https://flask-bcrypt.readthedocs.io/en/1.0.1/) (For encrypting and decrypting password)
+5. [Flask-sqlalchemy](https://flask-sqlalchemy.readthedocs.io/en/stable/) (For database)
+6. [Flask-migrate](https://flask-migrate.readthedocs.io/en/latest/) (For migrating models)
 ### Frontend
-1. Bootstrap
+1. [Bootstrap](https://getbootstrap.com/)
 2. Jinja2 (For templating purpose, supported by Flask)
 ### Scripting
-1. Numpy
-2. Scikit-learn
+1. [Pandas](https://pandas.pydata.org/)
+2. [Scikit-learn](https://scikit-learn.org/stable/)
 3. Datetime
 4. os
