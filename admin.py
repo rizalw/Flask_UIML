@@ -49,7 +49,10 @@ def dataset():
                 name = request.form['name']
                 type = request.form['type']
                 label_name = request.form['label_name']
-                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'],"dataset/" ,filename)
+                dataset_path = os.path.join(current_app.config['UPLOAD_FOLDER'],"dataset/")
+                if not os.path.exists(dataset_path):
+                    os.mkdir(dataset_path)
+                filepath = os.path.join(dataset_path,filename)
                 file.save(filepath)
                 new_dataset = Dataset(name = name, type = type, label_name = label_name, filepath = os.path.join("dataset/", filename))
                 db.session.add(new_dataset)

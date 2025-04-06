@@ -84,12 +84,17 @@ def model_delete(id):
         return redirect(url_for("auth.logout"))
     else:
         delete_data = db.one_or_404(db.select(Model).filter_by(id = id))
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], delete_data.filepath)
-        if os.path.exists(filepath):
+        try:
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], delete_data.filepath)
+        except:
+            pass
+        else:
+            if os.path.exists(filepath):
+                os.remove(filepath)
+        finally:
             db.session.delete(delete_data)
             db.session.commit()
-            os.remove(filepath)
-        return redirect(url_for("model"))
+            return redirect(url_for("model"))
 
 @app.get("/dashboard/model/train/parameter/<int:id>")
 @login_required
@@ -171,7 +176,10 @@ def model_train_process():
     pickle_parameter = pickle.dumps(parameters, pickle.HIGHEST_PROTOCOL)
 
     filename = "{}_{}_{}".format(model_id, dataset_id, algorithm_name)
-    filepath = os.path.join(app.config['UPLOAD_FOLDER'], "model/", filename)
+    model_path = os.path.join(app.config['UPLOAD_FOLDER'], "model/")
+    if not os.path.exists(model_path):
+        os.mkdir(model_path)
+    filepath = os.path.join(model_path, filename)
     with open(filepath, "wb") as f:
         pickle.dump(trained_model, f)
     
