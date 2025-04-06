@@ -1,5 +1,5 @@
 # Flask UIML
-Flask UIML (User Interface Machine Learning) is website that can create, train, and deploy your own ML model using just user interface. This website is also serve as my personal portfolio website. If you guys are the recruiters or someone who just curious about my skill, you could just read this readme or explore the repository. This is my linkedin [profile](https://www.linkedin.com/in/rizal-widyananda/)
+Flask UIML (User Interface Machine Learning) is website that can create, train, and deploy your own ML model using just user interface. This website is also serve as my personal portfolio website. If you guys are the recruiters or someone who just curious about my skill, you could just read this readme or explore the repository. This is my Linkedin [profile](https://www.linkedin.com/in/rizal-widyananda/)
 
 ## Released Features
 1. Create your own model just by picking available algorithm and dataset in the website
