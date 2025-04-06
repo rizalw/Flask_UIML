@@ -175,6 +175,4 @@ cython_debug/
 
 # Custom stuff
 Docs/
-static/upload/dataset/*
-static/upload/model/*
 secret.py
