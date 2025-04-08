@@ -6,17 +6,17 @@ Based on some of the hosting providers that I tried, I can't do it for free beca
 ## Released Features
 1. Create your own model just by picking available algorithm and dataset in the website
 2. Customize your own parameters, or you could just use the default value that already given in the website
-3. Train your own model
-4. Download the model to your own device for your deployment purposes
+3. Choose your own train:test ratio
+4. Train your own model
+5. Download the model to your own device for your deployment purposes
 ## Limitation
 1. This web app still only using Scikit-learn so no deep learning yet
 2. User still can't upload their own dataset yet, that features can only be done on the admin side
 ## Future Possibilities
 1. Implementing deep learning into the web app (Tensorflow or Pytorch)
 2. Use the model from inside the web app UI to predict new data (Your own files or new inputted data)
-3. Choose your own train:test ratio, the default is still 75:25
-4. User can upload their own dataset
-5. Visualize available dataset
+3. User can upload their own dataset
+4. Visualize available dataset
 ## What's the tools that I used?
 I'm gonna detailing all of the programming languange, tools, and library that I used to make this website.
 ### Language
@@ -37,4 +37,4 @@ I'm gonna detailing all of the programming languange, tools, and library that I 
 1. [Pandas](https://pandas.pydata.org/)
 2. [Scikit-learn](https://scikit-learn.org/stable/)
 3. Datetime
-4. os
+4. OS
