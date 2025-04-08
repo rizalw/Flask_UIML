@@ -17,7 +17,6 @@ def allowed_file(filename):
 admin = Blueprint('admin', __name__)
 
 @admin.get("/admin")
-@login_required
 def index():
     if current_user.role != "admin":
         return redirect(url_for('auth.logout'))
