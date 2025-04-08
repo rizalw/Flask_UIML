@@ -54,5 +54,23 @@ algorithms = {
                 "fit_intercept" : [True, False],
             }
         }
+    },
+    3 : {
+        "name" : "K-Nearest Neighbors (Classifier)",
+        "source" : "Scikit-Learn",
+        "type" : "classification",
+        "parameters" : {
+            "categorical" : {
+                "weights" : ["uniform", "distance"],
+                "algorithm" : ["auto", "ball_tree", "kd_tree", "brute"],
+                "metric" : ["minkowski", "precomputed"]
+            },
+            "int" : {
+                "n_neighbors" : [5, "int"],
+                "leaf_size" : [30, "int"],
+                "p" : [2, 1],
+                "n_jobs" : [None, "int"]
+            }
+        }
     }
 }
