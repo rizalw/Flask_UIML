@@ -60,14 +60,14 @@
                     <a href="{{url_for('model_download', id=model.id)}}" class="btn btn-info mx-2 disabled">Download</a>
                     {% endif %}
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger mx-2" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">
+                    <button type="button" id="modal{{model.id}}" class="btn btn-danger mx-2" data-bs-toggle="modal"
+                        data-bs-target="#modal{{model.id}}">
                         Delete
                     </button>
                 </td>
             </tr>
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="modal{{model.id}}" tabindex="-1" aria-labelledby="modal{{model.id}}label"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
