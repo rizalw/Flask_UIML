@@ -110,45 +110,29 @@ def model_train_parameter(id):
 def model_train_process():
     model_id = request.form["model_id"]
     dataset_id = request.form["dataset_id"]
+    algorithm_id = int(request.form["algorithm_id"])
     algorithm_name = request.form["algorithm_name"]
-    possible_parameter : ["categorical", "int", "float", "boolean"] # type: ignore
+    possible_parameter = ["categorical", "int", "float", "boolean"] # type: ignore
     parameters = {}
     
-    # Get algorithm_id manually because algorithm data doesn't exist yet in DB
-    for key, val in algorithms.items():
-        if val["name"] == algorithm_name:
-            algorithm_id = key
-            break
-    
     # Input every available parameters 
-    if "categorical" in algorithms[algorithm_id]["parameters"].keys():
-        parameters['categorical'] = {}
-        for key in algorithms[algorithm_id]["parameters"]["categorical"].keys():
-            if request.form[key] == "None":
-                parameters['categorical'][key] = None
-            else:
-                parameters['categorical'][key] = request.form[key]
-    if "int" in algorithms[algorithm_id]["parameters"].keys():  
-        parameters['int'] = {}  
-        for key in algorithms[algorithm_id]["parameters"]["int"].keys():
-            if request.form[key] == "" or request.form[key] == None:
-                parameters['int'][key] = None
-            else:
-                parameters['int'][key] = int(request.form[key])
-    if "float" in algorithms[algorithm_id]["parameters"].keys():
-        parameters['float'] = {}  
-        for key in algorithms[algorithm_id]["parameters"]["float"].keys():
-            parameters['float'][key] = float(request.form[key])
-    if "boolean" in algorithms[algorithm_id]["parameters"].keys():
-        parameters['boolean '] = {}  
-        for key in algorithms[algorithm_id]["parameters"]["boolean"].keys():
-            parameters['boolean'][key] = bool(request.form[key])
-    
-    #Convert old dict structure to new one by erasing 'type' keys (categorical, number, boolean)
-    new_parameters = {}
-    for key, val in parameters.items():
-        for key2, val2 in val.items():
-            new_parameters[key2] = val2
+    for param in possible_parameter:
+        if param in algorithms[algorithm_id]["parameters"].keys():          
+            for key in algorithms[algorithm_id]["parameters"][param].keys():
+                if param == "categorical":
+                    if request.form[key] == "None":
+                        parameters[key] = None
+                    else:
+                        parameters[key] = request.form[key]
+                elif param == "int":
+                    if request.form[key] == "" or request.form[key] == None:
+                        parameters[key] = None
+                    else:
+                        parameters[key] = int(request.form[key])
+                elif param == "float":
+                    parameters[key] = float(request.form[key])
+                elif param == "boolean":
+                    parameters[key] = bool(request.form[key])
     
     #Generate new model
     from sklearn.svm import LinearSVC
@@ -156,11 +140,11 @@ def model_train_process():
     from sklearn.neighbors import KNeighborsClassifier
     
     if algorithm_id == 1:
-        new_model = DecisionTreeClassifier(**new_parameters)    
+        new_model = DecisionTreeClassifier(**parameters)    
     elif algorithm_id == 2:
-        new_model = LinearSVC(**new_parameters) 
+        new_model = LinearSVC(**parameters) 
     elif algorithm_id == 3:
-        new_model = KNeighborsClassifier(**new_parameters)
+        new_model = KNeighborsClassifier(**parameters)
 
     #Get csv file
     dataset = db.one_or_404(db.select(Dataset).filter_by(id = dataset_id))

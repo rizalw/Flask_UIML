@@ -27,6 +27,7 @@
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
     <input type="number" name="model_id" value="{{ model.id }}" hidden>
     <input type="number" name="dataset_id" value="{{ model.dataset_id }}" hidden>
+    <input type="number" name="algorithm_id" value="{{ model.algorithm_id }}" hidden>
     <input type="text" name="algorithm_name" value="{{ algorithm['name'] }}" hidden>
     <div class="d-flex flex-wrap">
         {% for params in algorithm['parameters']['categorical'] %}
