@@ -163,8 +163,9 @@ def model_train_process():
     X = df.drop(columns=[dataset.label_name])
     y = df[dataset.label_name]
 
+    test_size = float(request.form['test_size'])
     from sklearn.model_selection import train_test_split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=1)
     
     #Train Model
     trained_model = new_model.fit(X_train, y_train)

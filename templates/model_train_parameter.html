@@ -28,7 +28,7 @@
     <input type="number" name="model_id" value="{{ model.id }}" hidden>
     <input type="number" name="dataset_id" value="{{ model.dataset_id }}" hidden>
     <input type="text" name="algorithm_name" value="{{ algorithm['name'] }}" hidden>
-    <div class="d-flex justify-content-evenly flex-wrap">
+    <div class="d-flex flex-wrap">
         {% for params in algorithm['parameters']['categorical'] %}
         <div class="mb-3 mx-2 flex-grow-1">
             <label for="" class="form-label">{{ params }}</label>
@@ -60,6 +60,11 @@
             </select>
         </div>
         {% endfor%}
+        <div class="mb-3 mx-2">
+            <label for="" class="form-label">Test Size</label>
+            <input type="text" name="test_size" class="form-control" id="" value="0.25">
+            <div class="form-text">Decimal only (0 - 0.99)</div>
+        </div>
     </div>
     <div class="form-text mb-3">If empty (not zero), it means the value can be empty.</div>
     <input type=submit value="Train" class="btn btn-primary mb-3">
