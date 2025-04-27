@@ -13,11 +13,15 @@ def admin_register():
     form = RegisterForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            hashed_password = bcrypt.generate_password_hash(form.password.data)
-            new_user = User(username=form.username.data, password=hashed_password, role="admin")
-            db.session.add(new_user)
-            db.session.commit()
-            return redirect(url_for('auth.login'))
+            if form.validate_username(form.username):
+                hashed_password = bcrypt.generate_password_hash(form.password.data)
+                new_user = User(username=form.username.data, password=hashed_password, role="admin")
+                db.session.add(new_user)
+                db.session.commit()
+                return redirect(url_for('auth.login'))
+            else:
+                flash('The username is already used')
+                return redirect(request.url)
         else:
             flash('Your registration failed')
             return redirect(request.url)
