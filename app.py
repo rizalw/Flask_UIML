@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, send_from_directory, request
+from flask import Flask, flash, render_template, url_for, redirect, send_from_directory, request
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_required, current_user
 from flask_wtf.csrf import CSRFProtect
@@ -184,6 +184,34 @@ def model_train_process():
     db.session.commit()
     
     return redirect(url_for("model"))
+
+@app.route("/dashboard/model/predict/<int:id>", methods=['GET', 'POST'])
+def model_predict(id):
+    model = db.one_or_404(db.select(Model).filter_by(id = id))
+    if request.method == "POST":
+        pickle_file = os.path.join(app.config['UPLOAD_FOLDER'] , model.filepath)    
+        
+        with open(pickle_file, 'rb') as picklefile:
+            model_pickle = pickle.load(picklefile)
+        
+        predict_data = {}
+        predict_column = request.form["column_list"].split("-")
+        for column_name in predict_column:
+            predict_data[column_name] = float(request.form[column_name])
+        
+        result = model_pickle.predict([[ x for x in predict_data.values()]])
+        flash("Model : {}".format(model.name))
+        flash("Algorithm : {}".format(algorithms[model.algorithm_id]["name"]))
+        flash("Output : {}".format(result[0]))
+        return redirect(url_for("model"))
+    else:
+        label_name = model.dataset.label_name
+        dataset_filepath = os.path.join(app.config['UPLOAD_FOLDER'] , model.dataset.filepath)
+        df = pd.read_csv(dataset_filepath)
+        column_list = df.columns.tolist()
+        column_list.remove(label_name)
+        value_example = df.iloc[0].values.tolist()
+        return render_template("model_predict.html", column_list = column_list, value_example = value_example, id = id)
 
 @app.get("/dashboard/model/download/<int:id>")
 def model_download(id):

@@ -1,0 +1,40 @@
+{% extends "/layout.html" %}
+
+{% block title %}
+<title>Create Model</title>
+{% endblock%}
+
+{% block sidebar %}
+<li class="nav-item">
+    <a href="{{ url_for('dashboard') }}" class="nav-link text-white" aria-current="page">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Home
+    </a>
+</li>
+<li>
+    <a href="{{ url_for('model') }}" class="nav-link active">
+        <svg class="bi me-2" width="16" height="16">
+        </svg>
+        Models
+    </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center">Model Prediction</h1>
+<div class="px-3">
+    <form action="{{ url_for('model_predict', id = id) }}" method="post" class="w-50 mx-auto">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <input type="text" name="column_list" id="" value="{{ '-'.join(column_list) }}" hidden>
+        {% for index in range(column_list | length) %}
+        <div class="mb-3">
+            <label for="" class="form-label">{{ column_list[index] }}</label>
+            <input type="number" step="0.01" name="{{ column_list[index] }}" id="" class="form-control"
+                placeholder="Ex: {{ value_example[index] }}">
+        </div>
+        {% endfor %}
+        <input type="submit" class="btn btn-primary" value="Predict">
+    </form>
+</div>
+{% endblock %}

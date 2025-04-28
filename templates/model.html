@@ -56,6 +56,7 @@
                     <a href="{{url_for('model_train_parameter', id=model.id)}}" class="btn btn-primary mx-2">Train</a>
                     {% if model.status == 1 %}
                     <a href="{{url_for('model_download', id=model.id)}}" class="btn btn-info mx-2">Download</a>
+                    <a href="{{url_for('model_predict', id=model.id)}}" class="btn btn-info mx-2">Predict</a>
                     {% else %}
                     <a href="{{url_for('model_download', id=model.id)}}" class="btn btn-info mx-2 disabled">Download</a>
                     {% endif %}
@@ -92,5 +93,17 @@
     </table>
 </div>
 {% endif %}
-<a href="{{ url_for('model_new')}}" class="btn btn-primary ms-3">Create new model</a>
+<a href="{{ url_for('model_new')}}" class="btn btn-primary ms-3 mb-3">Create new model</a>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="card mx-3 text-bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Prediction Result</h5>
+                {% for message in messages %}
+                <p class="card-text">{{ message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
 {% endblock %}
