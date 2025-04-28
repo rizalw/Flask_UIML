@@ -1,5 +1,5 @@
 # Flask UIML
-Flask UIML (User Interface Machine Learning) is a website that can create, train, and deploy your own ML model using just user interface. This website is also serve as my personal portfolio website. If you guys are the recruiters or someone who just curious about my skill, you could just read this readme or explore the repository. This is my Linkedin [profile](https://www.linkedin.com/in/rizal-widyananda/).
+Flask UIML (User Interface Machine Learning) is website that can create, train, and deploy your own ML model using just user interface. This website is also serve as my personal portfolio website. If you guys are the recruiters or someone who just curious about my skill, you could just read this readme or explore the repository. This is my Linkedin [profile](https://www.linkedin.com/in/rizal-widyananda/).
 ### If it's for my personal website portfolio, why didn't I deploy it to a hosting provider?
 Based on some of the hosting providers that I tried, I can't do it for free because of the file size limit (nearly 500 mb) and/or file count limit (above 1000 files). Unless I found some hosting platform that can do it for free with that amount of file size & file count or maybe I just want to burn some money for a while, I will not deploy it.
 
@@ -39,4 +39,5 @@ I'm gonna detailing all of the programming languange, tools, and library that I 
 1. [Pandas](https://pandas.pydata.org/)
 2. [Scikit-learn](https://scikit-learn.org/stable/)
 3. Datetime
-4. OS
+4. os
+5. Pickle
