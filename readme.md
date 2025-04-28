@@ -16,8 +16,8 @@ Based on some of the hosting providers that I tried, I can't do it for free beca
 3. User still can't use their own CSV file for doing prediction
 ## Future Possibilities
 1. Implementing deep learning algorithm (Tensorflow or PyTorch)
-2. You can upload their own dataset
-3. You can upload their own CSV file for doing prediction
+2. User can upload their own dataset
+3. User can upload their own CSV file for doing prediction
 4. Visualize all available datasets
 ## What's the tools that I used?
 I'm gonna detailing all of the programming languange, tools, and library that I used to make this website.
