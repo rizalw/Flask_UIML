@@ -137,16 +137,15 @@ def model_train_process():
                     elif param == "boolean":
                         parameters[key] = bool(request.form[key])
         
-        #Generate new model
-        from sklearn.svm import LinearSVC
-        from sklearn.tree import DecisionTreeClassifier
-        from sklearn.neighbors import KNeighborsClassifier
-        
+        #Generate new model        
         if algorithm_id == 1:
+            from sklearn.tree import DecisionTreeClassifier
             new_model = DecisionTreeClassifier(**parameters)    
         elif algorithm_id == 2:
+            from sklearn.svm import LinearSVC
             new_model = LinearSVC(**parameters) 
         elif algorithm_id == 3:
+            from sklearn.neighbors import KNeighborsClassifier
             new_model = KNeighborsClassifier(**parameters)
 
         #Get csv file
