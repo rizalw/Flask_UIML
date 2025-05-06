@@ -6,7 +6,7 @@
 
 {% block sidebar %}
 <li class="nav-item">
-    <a href="{{ url_for('admin.index') }}" class="nav-link text-white" aria-current="page">
+    <a href="{{ url_for('admin.index') }}" class="nav-link text-white">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Home
@@ -20,7 +20,7 @@
     </a>
 </li>
 <li>
-    <a href="{{ url_for('admin.dataset') }}" class="nav-link active">
+    <a href="{{ url_for('admin.dataset') }}" class="nav-link text-dark" style="background-color: #75ACCF;" aria-current="page">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Datasets
@@ -61,7 +61,7 @@
         <input type=file name=file class="form-control" required>
         <div class="form-text">Supported file type: xlsx and csv. <br>Maximum upload size is 160 MB.</div>
     </div>
-    <input type=submit value=Upload class="btn btn-primary mb-3">
+    <input type=submit value=Upload class="btn button mb-3">
 </form>
 
 <h3 class="ps-3">List of Available Dataset</h3>
@@ -84,7 +84,7 @@
                     <td class="col">{{ dataset.name }}</td>
                     <td class="col">{{ dataset.type }}</td>
                     <td class="col d-flex justify-content-evenly">
-                        <a href="{{url_for('admin.dataset_view', id=dataset.id)}}" class="btn btn-info">View</a>
+                        <a href="{{url_for('admin.dataset_view', id=dataset.id)}}" class="btn button-faint">View</a>
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">

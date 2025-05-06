@@ -13,7 +13,7 @@
     </a>
 </li>
 <li>
-    <a href="{{ url_for('model') }}" class="nav-link active">
+    <a href="{{ url_for('model') }}" class="nav-link text-dark" style="background-color: #75ACCF;">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Models
@@ -46,6 +46,6 @@
             {% endfor %}
         </select>
     </div>
-    <input type=submit value="Continue" class="btn btn-primary mb-3">
+    <input type=submit value="Continue" class="btn button mb-3">
 </form>
 {% endblock %}

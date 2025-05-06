@@ -13,7 +13,7 @@
     </a>
 </li>
 <li>
-    <a href="{{ url_for('model') }}" class="nav-link active">
+    <a href="{{ url_for('model') }}" class="nav-link text-dark" style="background-color: #75ACCF;">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Models
@@ -53,10 +53,10 @@
                 {% endif %}
                 </td>
                 <td class="col d-flex justify-content-evenly">
-                    <a href="{{url_for('model_train_parameter', id=model.id)}}" class="btn btn-primary mx-2">Train</a>
+                    <a href="{{url_for('model_train_parameter', id=model.id)}}" class="btn button mx-2">Train</a>
                     {% if model.status == 1 %}
-                    <a href="{{url_for('model_download', id=model.id)}}" class="btn btn-info mx-2">Download</a>
-                    <a href="{{url_for('model_predict', id=model.id)}}" class="btn btn-info mx-2">Predict</a>
+                    <a href="{{url_for('model_download', id=model.id)}}" class="btn button-faint mx-2">Download</a>
+                    <a href="{{url_for('model_predict', id=model.id)}}" class="btn button-faint mx-2">Predict</a>
                     {% else %}
                     <a href="{{url_for('model_download', id=model.id)}}" class="btn btn-info mx-2 disabled">Download</a>
                     {% endif %}
@@ -81,7 +81,7 @@
                             Are you sure that you want to delete this model?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Back</button>
+                            <button type="button" class="btn button" data-bs-dismiss="modal">Back</button>
                             <a href="{{ url_for('model_delete', id=model.id)}}" class="btn btn-danger">Delete</a>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
     </table>
 </div>
 {% endif %}
-<a href="{{ url_for('model_new')}}" class="btn btn-primary ms-3 mb-3">Create new model</a>
+<a href="{{ url_for('model_new')}}" class="btn button ms-3 mb-3">Create new model</a>
 {% with messages = get_flashed_messages() %}
     {% if messages %}
         <div class="card mx-3 text-bg-success">

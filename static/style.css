@@ -1,0 +1,20 @@
+.base-color{
+    background-color: #315870;
+}
+.button-faint{
+    background-color: #75ACCF;
+}
+.button-faint:hover{
+    border: 1px solid #315870;
+}
+
+
+.button{
+    background-color: #3D79A3;
+    color: white;
+
+}
+.button:hover{
+    background-color: #315870;
+    color: white;
+}

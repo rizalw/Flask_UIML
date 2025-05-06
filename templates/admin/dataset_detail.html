@@ -6,7 +6,7 @@
 
 {% block sidebar %}
 <li class="nav-item">
-    <a href="{{ url_for('admin.index') }}" class="nav-link text-white" aria-current="page">
+    <a href="{{ url_for('admin.index') }}" class="nav-link text-white">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Home
@@ -20,7 +20,7 @@
     </a>
 </li>
 <li>
-    <a href="{{ url_for('admin.dataset') }}" class="nav-link active">
+    <a href="{{ url_for('admin.dataset') }}" class="nav-link text-dark" style="background-color: #75ACCF;" aria-current="page">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Datasets
@@ -37,7 +37,7 @@
 
 
 {% block content %}
-<h1 class="bg-primary text-light ps-3 pb-2">{{ dataset_data.name }}</h1>
+<div class="base-color text-white fs-4 text-center ps-3 pb-2">{{ dataset_data.name }}</div>
 <table class="table table-striped ms-3">
     <thead>
         <tr>

@@ -13,7 +13,7 @@
     </a>
 </li>
 <li>
-    <a href="{{ url_for('model') }}" class="nav-link active">
+    <a href="{{ url_for('model') }}" class="nav-link text-dark" style="background-color: #75ACCF;">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Models
@@ -23,7 +23,7 @@
 
 {% block content %}
 <h1 class="text-center">Model Prediction</h1>
-<div class="px-3">
+<div class="px-3 pb-3">
     <form action="{{ url_for('model_predict', id = id) }}" method="post" class="w-50 mx-auto">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <input type="text" name="column_list" id="" value="{{ '-'.join(column_list) }}" hidden>
@@ -34,7 +34,7 @@
                 placeholder="Ex: {{ value_example[index] }}">
         </div>
         {% endfor %}
-        <input type="submit" class="btn btn-primary" value="Predict">
+        <input type="submit" class="btn button" value="Predict">
     </form>
 </div>
 {% endblock %}
