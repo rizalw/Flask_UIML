@@ -38,24 +38,26 @@
 
 {% block content %}
 <div class="base-color text-white fs-4 text-center ps-3 pb-2">{{ dataset_data.name }}</div>
-<table class="table table-striped ms-3">
-    <thead>
-        <tr>
-            <th class="col-1">Row</th>
-            {% for column in columns%}
-            <th class="col-2">{{ column }}</th>
-            {% endfor%}
-        </tr>
-    </thead>
-    <tbody>
-        {% for value in values %}
-        <tr>
-            <td>{{ loop.index }}</td>
-            {% for detail in value %}
-            <td>{{ detail }}</td>
+<div style="overflow-x: auto;" class="px-2">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-1">Row</th>
+                {% for column in columns%}
+                <th class="col-2">{{ column }}</th>
+                {% endfor%}
+            </tr>
+        </thead>
+        <tbody>
+            {% for value in values %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                {% for detail in value %}
+                <td>{{ detail }}</td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
 {% endblock%}
