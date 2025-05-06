@@ -58,7 +58,7 @@
                     <a href="{{url_for('model_download', id=model.id)}}" class="btn button-faint mx-2">Download</a>
                     <a href="{{url_for('model_predict', id=model.id)}}" class="btn button-faint mx-2">Predict</a>
                     {% else %}
-                    <a href="{{url_for('model_download', id=model.id)}}" class="btn btn-info mx-2 disabled">Download</a>
+                    <a href="{{url_for('model_download', id=model.id)}}" class="btn button-faint mx-2 disabled">Download</a>
                     {% endif %}
                     <!-- Button trigger modal -->
                     <button type="button" id="modal{{model.id}}" class="btn btn-danger mx-2" data-bs-toggle="modal"
