@@ -6,7 +6,8 @@
 
 {% block sidebar %}
 <li class="nav-item">
-    <a href="{{ url_for('dashboard') }}" class="nav-link text-dark" style="background-color: #75ACCF;" aria-current="page">
+    <a href="{{ url_for('dashboard') }}" class="nav-link text-dark" style="background-color: #75ACCF;"
+        aria-current="page">
         <svg class="bi me-2" width="16" height="16">
         </svg>
         Home
@@ -22,7 +23,43 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="text-center">Welcome to UIML</h1>
-<h6 class="text-center">"Easily Create ML Model with User Interface"</h6>
-
+<div class="px-2">
+    <h1 class="text-center">Welcome to UIML</h1>
+    <h6 class="text-center">"Easily Create ML Model with User Interface"</h6>
+    <h3>List of Your Model</h3>
+    {% if model_list |length < 1 %} <h4>No model available. Click Models menu on the side bar to create a new model.</h4>
+    {% else %}
+    <div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="col-1">#</th>
+                    <th class="col-2">Name</th>
+                    <th class="col-2">Dataset</th>
+                    <th class="col-2">Algorithm</th>
+                    <th class="col-2">Trained</th>
+                    <th class="col-2">Accuracy</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for model in model_list %}
+                <tr>
+                    <th scope="row" class="col-1">{{ loop.index }}</th>
+                    <td class="col">{{ model.name }}</td>
+                    <td class="col">{{ model.dataset.name }}</td>
+                    <td class="col">{{ algorithms_dict[model.algorithm_id]['name'] }}</td>
+                    <td class="col">{{ model.status }}</td>
+                    <td class="col">
+                        {% if model.accuracy is not none %}
+                        {{ "{:.2f}".format(model.accuracy) }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p>Click Models menu in the side bar to create a new model.</p>
+</div>
+{% endif %}
 {% endblock %}

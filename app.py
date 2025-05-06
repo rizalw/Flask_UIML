@@ -48,7 +48,8 @@ def dashboard():
     if current_user.role != "customer":
         return redirect(url_for("auth.logout"))
     else:
-        return render_template('dashboard.html')
+        model_list = db.session.query(Model).filter_by(user_id = current_user.id).order_by(Model.date_created).all()
+        return render_template('dashboard.html', model_list = model_list, algorithms_dict = algorithms)
 
 @app.get("/dashboard/model")
 @login_required
