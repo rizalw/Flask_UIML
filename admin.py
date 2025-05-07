@@ -7,7 +7,7 @@ import os
 import pandas as pd
 
 UPLOAD_FOLDER = 'static/upload/'
-ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
+ALLOWED_EXTENSIONS = {'csv'}
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -32,16 +32,7 @@ def dataset():
         return redirect(url_for("auth.logout"))
     else:
         if request.method == "POST":
-            # Check if the post request has the file part
-            if 'file' not in request.files:
-                flash('No file part')
-                return redirect(request.url)
             file = request.files['file']
-            # If the user does not select a file, the browser submits an 
-            # empty file without a filename.
-            if file.filename == '':
-                flash('No selected file')
-                return redirect(request.url)
             # Checking the file extension
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
