@@ -37,86 +37,97 @@
 
 {% block content %}
 <h1 class="text-center">Datasets</h1>
-<form method=post enctype=multipart/form-data class="ps-3">
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-    <div class="mb-3">
-        <label for="" class="form-label">Dataset Name</label>
-        <input type="text" name="name" class="form-control" placeholder="Insert name of the dataset" required>
-        <div class="form-text">Maximum name length is 20 characters</div>
+<div class="px-3">
+    <form method=post enctype=multipart/form-data>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <div class="mb-3">
+            <label for="" class="form-label">Dataset Name</label>
+            <input type="text" name="name" class="form-control" placeholder="Insert name of the dataset" required>
+            <div class="form-text">Maximum name length is 20 characters</div>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Dataset Type</label>
+            <select name="type" id="" class="form-select">
+                <option value="Classification">Classification</option>
+                <option value="Regression">Regression</option>
+                <option value="Clustering">Clustering</option>
+            </select>
+            <div class="form-text">Choose based on the intended use</div>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">Label Name</label>
+            <input type="text" name="label_name" class="form-control" placeholder="Insert name of the dataset" required>
+        </div>
+        <div class="mb-3">
+            <input type=file name=file class="form-control" required>
+            <div class="form-text">Supported file type: csv. <br>Maximum upload size is 160 MB.</div>
+        </div>
+        <input type=submit value=Upload class="btn button mb-3">
+    </form>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="card rounded-4 text-bg-danger mb-3" style="width: 20rem;">
+        <div class="card-body">
+            <h5 class="card-title">Error Message</h5>
+            {% for message in messages %}
+            <p class="card-text">{{ message }}</p>
+            {% endfor %}
+        </div>
     </div>
-    <div class="mb-3">
-        <label for="" class="form-label">Dataset Type</label>
-        <select name="type" id="" class="form-select">
-            <option value="Classification">Classification</option>
-            <option value="Regression">Regression</option>
-            <option value="Clustering">Clustering</option>
-        </select>
-        <div class="form-text">Choose based on the intended use</div>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label">Label Name</label>
-        <input type="text" name="label_name" class="form-control" placeholder="Insert name of the dataset" required>
-    </div>
-    <div class="mb-3">
-        <input type=file name=file class="form-control" required>
-        <div class="form-text">Supported file type: xlsx and csv. <br>Maximum upload size is 160 MB.</div>
-    </div>
-    <input type=submit value=Upload class="btn button mb-3">
-</form>
-
-<h3 class="ps-3">List of Available Dataset</h3>
-{% if dataset_list |length < 1 %} <h4 class="ps-3">No dataset available. Please upload new dataset.</h4>
+    {% endif %}
+    {% endwith %}
+    <h3>List of Available Dataset</h3>
+    {% if dataset_list |length < 1 %} 
+    <h4>No dataset available. Please upload new dataset.</h4>
     {% else %}
-    <div class="px-3">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="col-1">#</th>
-                    <th class="col-5">Name</th>
-                    <th class="col-4">Type</th>
-                    <th class="col-2 text-center">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for dataset in dataset_list %}
-                <tr>
-                    <th scope="row" class="col-1">{{ loop.index }}</th>
-                    <td class="col">{{ dataset.name }}</td>
-                    <td class="col">{{ dataset.type }}</td>
-                    <td class="col d-flex justify-content-evenly">
-                        <a href="{{url_for('admin.dataset_view', id=dataset.id)}}" class="btn button-faint">View</a>
-                        <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Warning!</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Are you sure that you want to delete this dataset?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                                <a href="{{ url_for('admin.dataset_delete', id=dataset.id)}}"
-                                    class="btn btn-danger">Delete</a>
-                            </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-1">#</th>
+                <th class="col-5">Name</th>
+                <th class="col-4">Type</th>
+                <th class="col-2 text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset in dataset_list %}
+            <tr>
+            <th scope="row" class="col-1">{{ loop.index }}</th>
+                <td class="col">{{ dataset.name }}</td>
+                <td class="col">{{ dataset.type }}</td>
+                <td class="col d-flex justify-content-evenly">
+                    <a href="{{url_for('admin.dataset_view', id=dataset.id)}}" class="btn button-faint">View</a>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Warning!</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure that you want to delete this dataset?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            <a href="{{ url_for('admin.dataset_delete', id=dataset.id)}}"
+                                class="btn btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>
-
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
     {% endif %}
-    {% endblock %}
+</div>
+{% endblock %}

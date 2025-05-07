@@ -48,6 +48,10 @@ def dataset():
                 db.session.add(new_dataset)
                 db.session.commit()
                 return redirect(url_for("admin.dataset"))
+            else:
+                flash("The uploaded file extension is not supported")
+                flash("The supported extension is csv")
+                return redirect(request.url)
         else:
             dataset_list = db.session.query(Dataset).order_by(Dataset.date_created).all()
             return render_template("/admin/dataset.html", dataset_list = dataset_list)
