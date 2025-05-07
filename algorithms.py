@@ -38,7 +38,7 @@ algorithms = {
                 "loss" : ['squared_hinge', "hinge"],        
                 "multi_class" : ["ovr", "crammer_singer"],
                 "dual" : ["auto", "boolean"],
-                "class_weight" : [None, "dict", "balanced"],
+                "class_weight" : [None, "balanced"],
             },
             "int" : {
                 "verbose" : [0, "int"],
