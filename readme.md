@@ -9,16 +9,14 @@ Based on some of the hosting providers that I tried, I can't do it for free beca
 3. Choose your own train:test ratio
 4. Train your own model
 5. Download the model to your own device for your deployment purposes
-6. Doing prediction using your inputted data
+6. Doing prediction using your inputted data or upload your own csv file
 ## Limitation
 1. This web app still only using Scikit-learn so no deep learning yet
 2. User still can't upload their own dataset yet, that features can only be done on the admin side
-3. User still can't use their own CSV file for doing prediction
 ## Future Possibilities
 1. Implementing deep learning algorithm (Tensorflow or PyTorch)
 2. User can upload their own dataset
-3. User can upload their own CSV file for doing prediction
-4. Visualize all available datasets
+3. Visualize all available datasets
 ## What's the tools that I used?
 I'm gonna detailing all of the programming languange, tools, and library that I used to make this website.
 ### Language
