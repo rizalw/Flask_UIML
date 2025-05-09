@@ -23,18 +23,60 @@
 
 {% block content %}
 <h1 class="text-center">Model Prediction</h1>
-<div class="px-3 pb-3">
-    <form action="{{ url_for('model_predict', id = id) }}" method="post" class="w-50 mx-auto">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <input type="text" name="column_list" id="" value="{{ '-'.join(column_list) }}" hidden>
-        {% for index in range(column_list | length) %}
-        <div class="mb-3">
-            <label for="" class="form-label">{{ column_list[index] }}</label>
-            <input type="number" step="0.01" name="{{ column_list[index] }}" id="" class="form-control"
-                placeholder="Ex: {{ value_example[index] }}">
+<div class="px-3 pb-4">
+    <div class="d-flex">
+        <div class="flex-grow-1 me-2" style="flex-basis: 0; width: 0;">
+            <div class="h5">Required CSV Structure</div>
+            <div style="overflow-x: scroll;">
+                <table class="table table-striped">
+                    <tr>
+                        {% for column in column_list %}
+                        <td>{{ column }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% for value in value_example %}
+                    <tr>
+                        {% for v in value %}
+                        <td>{{ v }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <form action="{{ url_for('model_predict_csv', id = id)}}" method=post enctype=multipart/form-data>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <div class="mb-3">
+                    <div class="form-label">Upload your CSV file here</div>
+                    <input type=file name=file class="form-control" required>
+                </div>
+                <input type="submit" class="btn button mb-3" value="Upload">
+            </form>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="card rounded-4 text-bg-danger" style="width: 20rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Error Message</h5>
+                    {% for message in messages %}
+                    <p class="card-text">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% endwith %}
         </div>
-        {% endfor %}
-        <input type="submit" class="btn button" value="Predict">
-    </form>
+        <form action="{{ url_for('model_predict', id = id) }}" method="post" class="flex-grow-1 ms-2"
+            style="flex-basis: 0; width: 0;">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+            <input type="text" name="column_list" id="" value="{{ '-'.join(column_list) }}" hidden>
+            {% for index in range(column_list | length) %}
+            <div class="mb-3">
+                <label for="" class="form-label">{{ column_list[index] }}</label>
+                <input type="number" step="0.01" name="{{ column_list[index] }}" id="" class="form-control"
+                    placeholder="Ex: {{ value_example[2][index] }}">
+            </div>
+            {% endfor %}
+            <input type="submit" class="btn button" value="Predict">
+        </form>
+    </div>
 </div>
 {% endblock %}

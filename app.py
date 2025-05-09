@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, url_for, redirect, send_from_directory, request
+from flask import Flask, flash, render_template, url_for, redirect, send_from_directory, send_file,request, session
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_required, current_user
 from flask_wtf.csrf import CSRFProtect
@@ -6,10 +6,11 @@ from flask_wtf.csrf import CSRFProtect
 import os
 import pandas as pd
 import pickle
+from io import BytesIO
 
 from auth import bcrypt, auth
 from algorithms import algorithms
-from admin import admin, UPLOAD_FOLDER
+from admin import admin, UPLOAD_FOLDER, ALLOWED_EXTENSIONS, allowed_file
 from models import db, User, Dataset, Model
 from secret import SECRET_KEY
 
@@ -217,8 +218,45 @@ def model_predict(id):
             df = pd.read_csv(dataset_filepath)
             column_list = df.columns.tolist()
             column_list.remove(label_name)
-            value_example = df.iloc[0].values.tolist()
+            value_example = df.iloc[0:3].drop(columns=[label_name]).values.tolist()
             return render_template("model_predict.html", column_list = column_list, value_example = value_example, id = id)
+
+@app.post("/dashboard/model/predict/<int:id>/upload")
+@login_required
+def model_predict_csv(id):
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        df = pd.read_csv(file)
+        predict_column = df.columns.tolist()
+        model = db.one_or_404(db.select(Model).filter_by(id = id))
+        original_filepath = os.path.join(app.config['UPLOAD_FOLDER'], model.dataset.filepath)
+        original_df = pd.read_csv(original_filepath)
+        original_column = original_df.columns.tolist()
+        original_column.remove(model.dataset.label_name)
+        if original_column == predict_column:
+            pickle_file = os.path.join(app.config['UPLOAD_FOLDER'] , model.filepath)    
+            
+            with open(pickle_file, 'rb') as picklefile:
+                model_pickle = pickle.load(picklefile)
+            
+            result = model_pickle.predict(df)
+            df[model.dataset.label_name] = result
+            output = BytesIO()
+            df.to_csv(output, index=False)
+            output.seek(0)
+            
+            return send_file(output, mimetype="text/csv", download_name="result.csv", as_attachment=True)
+            # df.to_csv(os.path.join(app.config["UPLOAD_FOLDER"], "result.csv"), index=False)
+            # return send_from_directory(app.config["UPLOAD_FOLDER"], "result.csv")
+            # Tinggal gimana caranya ngehapus file yang abis di download.
+        else:
+            flash("The column from your file still not the sames as the required CSV structure")
+            flash("Please update the file again after changing it")
+        return redirect(url_for('model_predict', id = id)) 
+    else:
+        flash("This file extension is not supported. You need to upload csv file")
+        flash("You need to upload csv file")
+        return redirect(url_for('model_predict', id = id))
 
 @app.get("/dashboard/model/download/<int:id>")
 @login_required
