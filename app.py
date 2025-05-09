@@ -246,9 +246,6 @@ def model_predict_csv(id):
             output.seek(0)
             
             return send_file(output, mimetype="text/csv", download_name="result.csv", as_attachment=True)
-            # df.to_csv(os.path.join(app.config["UPLOAD_FOLDER"], "result.csv"), index=False)
-            # return send_from_directory(app.config["UPLOAD_FOLDER"], "result.csv")
-            # Tinggal gimana caranya ngehapus file yang abis di download.
         else:
             flash("The column from your file still not the sames as the required CSV structure")
             flash("Please update the file again after changing it")
