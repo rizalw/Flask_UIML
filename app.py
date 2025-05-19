@@ -50,7 +50,21 @@ def dashboard():
         return redirect(url_for("auth.logout"))
     else:
         model_list = db.session.query(Model).filter_by(user_id = current_user.id).order_by(Model.date_created).all()
-        return render_template('dashboard.html', model_list = model_list, algorithms_dict = algorithms)
+        # Var for count average accuracy"
+        model_acc = 0
+        count = 0
+        # Var for count how many algorithm used
+        algo_list = set()
+        # Do both of them in the same step
+        for model in model_list:
+            if model.accuracy is not None:
+                model_acc += model.accuracy
+                count += 1
+            algo_list.add(model.algorithm_id)
+        # Last calculation
+        algo_count = len(algo_list)
+        model_acc /= count
+        return render_template('dashboard.html', model_list = model_list, model_acc = model_acc, algo_count = algo_count, algorithms_dict = algorithms)
 
 @app.get("/dashboard/model")
 @login_required

@@ -26,39 +26,60 @@
 <div class="px-2">
     <h1 class="text-center">Welcome to UIML</h1>
     <h6 class="text-center">"Easily Create ML Model with User Interface"</h6>
+    <h3>Summary</h3>
+    <div class="mb-3">
+        <div class="d-flex justify-content-evenly">
+            <div class="card" style="width: 12rem;">
+                <div class="card-body">
+                    <div class="card-title text-center"><b>Model Created</b></div>
+                    <div class="card-text text-center fs-2">{{ model_list |length }}</div>
+                </div>
+            </div>
+            <div class="card" style="width: 12rem;">
+                <div class="card-body">
+                    <div class="card-title text-center"><b>Average Accuracy</b></div>
+                    <div class="card-text text-center fs-2">{{"{:.2f}".format(model_acc) }}</div>
+                </div>
+            </div>
+            <div class="card" style="width: 12rem;">
+                <div class="card-body">
+                    <div class="card-title text-center"><b>Algorithm Used</b></div>
+                    <div class="card-text text-center fs-2">{{ algo_count }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
     <h3>List of Your Model</h3>
     {% if model_list |length < 1 %} <div class="fs-5">No model available. Click Models menu on the side bar to create a new model.</div>
     {% else %}
-    <div>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th class="col-1">#</th>
-                    <th class="col-2">Name</th>
-                    <th class="col-2">Dataset</th>
-                    <th class="col-2">Algorithm</th>
-                    <th class="col-2">Trained</th>
-                    <th class="col-2">Accuracy</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for model in model_list %}
-                <tr>
-                    <th scope="row" class="col-1">{{ loop.index }}</th>
-                    <td class="col">{{ model.name }}</td>
-                    <td class="col">{{ model.dataset.name }}</td>
-                    <td class="col">{{ algorithms_dict[model.algorithm_id]['name'] }}</td>
-                    <td class="col">{{ model.status }}</td>
-                    <td class="col">
-                        {% if model.accuracy is not none %}
-                        {{ "{:.2f}".format(model.accuracy) }}
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-1">#</th>
+                <th class="col-2">Name</th>
+                <th class="col-2">Dataset</th>
+                <th class="col-2">Algorithm</th>
+                <th class="col-2">Trained</th>
+                <th class="col-2">Accuracy</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for model in model_list %}
+            <tr>
+                <th scope="row" class="col-1">{{ loop.index }}</th>
+                <td class="col">{{ model.name }}</td>
+                <td class="col">{{ model.dataset.name }}</td>
+                <td class="col">{{ algorithms_dict[model.algorithm_id]['name'] }}</td>
+                <td class="col">{{ model.status }}</td>
+                <td class="col">
+                    {% if model.accuracy is not none %}
+                    {{ "{:.2f}".format(model.accuracy) }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <p>Click Models menu in the side bar to create a new model.</p>
 </div>
 {% endif %}
