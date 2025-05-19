@@ -10,7 +10,7 @@ from io import BytesIO
 
 from auth import bcrypt, auth
 from algorithms import algorithms
-from admin import admin, UPLOAD_FOLDER, ALLOWED_EXTENSIONS, allowed_file
+from admin import admin, UPLOAD_FOLDER, allowed_file
 from models import db, User, Dataset, Model
 from secret import SECRET_KEY
 

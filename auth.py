@@ -3,6 +3,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import login_user, login_required, logout_user
 from models import db, User
 from forms import RegisterForm, LoginForm
+from secret import SECRET_KEY
 
 bcrypt = Bcrypt()
 
@@ -13,14 +14,18 @@ def admin_register():
     form = RegisterForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            if form.validate_username(form.username):
-                hashed_password = bcrypt.generate_password_hash(form.password.data)
-                new_user = User(username=form.username.data, password=hashed_password, role="admin")
-                db.session.add(new_user)
-                db.session.commit()
-                return redirect(url_for('auth.login'))
+            if request.form["auth_key"] == SECRET_KEY:    
+                if form.validate_username(form.username):
+                    hashed_password = bcrypt.generate_password_hash(form.password.data)
+                    new_user = User(username=form.username.data, password=hashed_password, role="admin")
+                    db.session.add(new_user)
+                    db.session.commit()
+                    return redirect(url_for('auth.login'))
+                else:
+                    flash('The username is already used')
+                    return redirect(request.url)
             else:
-                flash('The username is already used')
+                flash('Wrong authorization key')
                 return redirect(request.url)
         else:
             flash('Your registration failed')

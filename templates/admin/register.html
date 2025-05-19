@@ -8,6 +8,14 @@
 Admin Registration Page
 {% endblock %}
 
+{% block auth_regist %}
+<div class="mb-3">
+    <label for="" class="form-label">Authorization Key</label>
+    <input type="text" name="auth_key" id="" class="form-control" placeholder="Authorization Key">
+</div>
+{% endblock %}
+
+
 {% block helper %}
 <a href="{{ url_for('auth.login' )}}" class="card-link">Already have an account? Log in here</a>
 {% endblock %}

@@ -25,6 +25,7 @@
                         <label for="" class="form-label">Password</label>
                         {{ form.password(class='form-control')}}
                     </div>
+                    {% block auth_regist %} {% endblock %}
                     {{ form.submit(class='btn button mb-3') }}
                 </form>
                 {% block helper %}{% endblock %}<br>
