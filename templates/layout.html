@@ -17,7 +17,8 @@
         .dropdown-toggle {
             outline: 0;
         }
-        a.dropdown-item:hover{
+
+        a.dropdown-item:hover {
             color: black !important;
         }
 
@@ -32,7 +33,6 @@
             left: 0;
             flex-wrap: nowrap;
             height: 100vh;
-            height: -webkit-fill-available;
             max-height: 100vh;
             overflow-x: auto;
             overflow-y: hidden;
@@ -66,8 +66,8 @@
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                     id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://avatars.githubusercontent.com/u/43237337?v=4" alt="" width="32" height="32"
-                        class="rounded-circle me-2">
+                    <img src="https://img.favpng.com/12/7/13/computer-icons-user-profile-synonyms-and-antonyms-android-png-favpng-aDx5XTZxUD5AZHyzB1hhs4DyB.jpg"
+                        alt="" width="32" height="32" class="rounded-circle me-2">
                     <strong>{{ current_user.username }}</strong>
                 </a>
                 <ul class="dropdown-menu base-color text-small shadow rounded-4" aria-labelledby="dropdownUser1">
@@ -76,7 +76,8 @@
                     <li>
                         <hr class="dropdown-divider">
                     </li> -->
-                    <li><a class="dropdown-item rounded-4 text-white" href="{{ url_for('auth.logout')}}">Sign out</a></li>
+                    <li><a class="dropdown-item rounded-4 text-white" href="{{ url_for('auth.logout')}}">Sign out</a>
+                    </li>
                 </ul>
             </div>
         </div>
